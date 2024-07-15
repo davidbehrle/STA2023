@@ -11,6 +11,7 @@
 \usepackage{array}
 \usepackage{tabularx}
 \usepackage{tikz}
+\usepackage{pgfplots}
 \usepackage{framed}
 \usepackage{xfrac}
 \usepackage[most]{tcolorbox}
@@ -19,11 +20,13 @@
 \usetikzlibrary{quotes,angles}
 \usetikzlibrary{decorations.pathreplacing}
 \usetikzlibrary{calc}
+\usepgfplotslibrary{fillbetween}
 
 \let\phi\varphi
 \let\bf\textbf
 \colorlet{shadecolor}{orange!15}
 \newcommand*{\comb}[2]{{}^{#1}C_{#2}}%
+\pgfplotsset{compat=1.18}
 
 \begin{document}
 \section{Chapter 1}
@@ -500,4 +503,460 @@ Where $p$ = probability of success on a single trial, $q = 1 - p$, $n$ = number 
         $P(x \geq 7) = 1 - P(x \leq 6)$
     \end{enumerate}
 \end{shaded}
+
+\newpage
+\section{Normal Probability Distributions}
+\bf{Normal Distribution} - Continuous probability distribution for a random variable $x$. The graph of a normal distribution is bell/mound shaped
+\begin{itemize}
+    \item The normal distribution is symmetric about its mean $\mu$
+    \item Its spread is determined by the value of its standard deviation $\sigma$
+\end{itemize}
+
+\pgfmathdeclarefunction{gauss}{3}{%
+  \pgfmathparse{1/(#3*sqrt(2*pi))*exp(-((#1-#2)^2)/(2*#3^2))}%
+}
+\begin{center}
+    \begin{tikzpicture}[scale=1]
+        \begin{axis}[
+            no markers, 
+            domain=0:6, 
+            samples=100,
+            ymin=0,
+            axis lines*=left, 
+            xlabel=,
+            every axis y label/.style={at=(current axis.above origin),anchor=south},
+            every axis x label/.style={at=(current axis.right of origin),anchor=west},
+            height=5cm, 
+            width=12cm,
+            xtick=\empty, 
+            ytick=\empty,
+            enlargelimits=false, 
+            clip=false, 
+            axis on top,
+            grid = major,
+            hide y axis
+        ]
+            \addplot [very thick,black,name path=A] {gauss(x, 3, 1)};
+            \pgfmathsetmacro\valueA{gauss(0.75,3,1)}
+            \pgfmathsetmacro\valueB{gauss(1.5,3,1)}
+            \pgfmathsetmacro\valueC{gauss(2.25,3,1)}
+            \pgfmathsetmacro\valueM{gauss(3,3,1)}
+            \draw [black] (axis cs:0.75,0) -- (axis cs:0.75,\valueA)
+                (axis cs:5.25,0) -- (axis cs:5.25,\valueA);
+            \draw [black] (axis cs:1.5,0) -- (axis cs:1.5,\valueB)
+                (axis cs:4.5,0) -- (axis cs:4.5,\valueB);
+            \draw [black] (axis cs:2.25,0) -- (axis cs:2.25,\valueC)
+                (axis cs:3.75,0) -- (axis cs:3.75,\valueC);
+            \draw [black!70!,dashed] (axis cs:3,0) -- (axis cs:3,\valueM);
+            \draw [yshift=2cm,thick,latex-latex](axis cs:2.25, 0) -- node[above] {$0.683$} (axis cs:3.75, 0);
+            \draw [yshift=1cm,thick,latex-latex](axis cs:1.5, 0) -- node[above] {$0.954$} (axis cs:4.5, 0);
+            \draw [yshift=0.2cm,thick,latex-latex](axis cs:0.75, 0) -- node[above] {$0.954$} (axis cs:5.25, 0);
+            
+            \node[below] at (axis cs:0.75, 0) {$\mu - 3\sigma$};
+            \node[below] at (axis cs:1.5, 0) {$\mu - 2\sigma$}; 
+            \node[below] at (axis cs:2.25, 0) {$\mu - \sigma$}; 
+            \node[below] at (axis cs:3, 0) {$\mu$}; 
+            \node[below] at (axis cs:3.75, 0) {$\mu + \sigma$};
+            \node[below] at (axis cs:4.5, 0) {$\mu + 2\sigma$};
+            \node[below] at (axis cs:5.25, 0) {$\mu + 3\sigma$};
+
+            \path[name path=B] 
+                (axis cs:\pgfkeysvalueof{/pgfplots/xmin},0)--
+                (axis cs:\pgfkeysvalueof{/pgfplots/xmax},0);
+            \addplot[white!20!teal] fill between[of=A and B, soft clip={domain=2.25:3.75},];
+            \addplot[gray!40!green] fill between[of=A and B, soft clip={domain=1.5:2.25},];
+            \addplot[gray!40!green] fill between[of=A and B, soft clip={domain=3.75:4.5},];
+            \addplot[red!80] fill between[of=A and B, soft clip={domain=0.75:1.5},];
+            \addplot[red!80] fill between[of=A and B, soft clip={domain=4.5:5.25},];
+            \addplot[violet!80] fill between[of=A and B, soft clip={domain=0:0.75},];
+            \addplot[violet!80] fill between[of=A and B, soft clip={domain=5.25:6},];
+
+            \addplot [very thick,black,name path=A] {gauss(x, 3, 1)};
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+\bf{Standard Normal Distribution} - A normal distribution with $\mu = 0$ and $\sigma = 1$. A random variable with a standard normal distribution, denoted by the symbol $z$, is called a standard normal variable
+\begin{shaded}
+    \underline{\bf{Example:} Bottled Drink Volume}
+    \vspace{2mm}\\
+    The average volume of liquid in a particular type of bottled drink is 500 mL with standard deviation 9 mL. The volume distribution is mound shaped.
+    \begin{enumerate}
+        \item[(a)] Using the empirical rule, what percent of drinks have a volume between 482 and 518 mL? Above 518 mL?
+        \begin{center}
+            \begin{tikzpicture}[scale=0.75]
+                \begin{axis}[
+                    no markers, 
+                    domain=0:6, 
+                    samples=100,
+                    ymin=0,
+                    axis lines*=left, 
+                    xlabel=,
+                    every axis y label/.style={at=(current axis.above origin),anchor=south},
+                    every axis x label/.style={at=(current axis.right of origin),anchor=west},
+                    height=5cm, 
+                    width=12cm,
+                    xtick=\empty, 
+                    ytick=\empty,
+                    enlargelimits=false, 
+                    clip=false, 
+                    axis on top,
+                    grid = major,
+                    hide y axis
+                ]
+                    
+                    \addplot [very thick,black,name path=A] {gauss(x, 3, 1)};
+                    \pgfmathsetmacro\valueA{gauss(1,3,1)}
+                    \pgfmathsetmacro\valueB{gauss(2,3,1)}
+                    \pgfmathsetmacro\valueC{gauss(3,3,1)}
+                    \draw [gray] (axis cs:1,0) -- (axis cs:1,\valueA)
+                        (axis cs:5,0) -- (axis cs:5,\valueA);
+                    \draw [gray] (axis cs:2,0) -- (axis cs:2,\valueB)
+                        (axis cs:4,0) -- (axis cs:4,\valueB);
+                    \draw [gray] (axis cs:3,0) -- (axis cs:3,\valueC);
+                    \draw [yshift=0.3cm, latex-latex](axis cs:1, 0) -- node [fill=orange!15] {$~95\%$} (axis cs:5, 0);
+                    
+                    \node[below] at (axis cs:1, 0) {482}; 
+                    \node[below] at (axis cs:2, 0) {491}; 
+                    \node[below] at (axis cs:3, 0) {500}; 
+                    \node[below] at (axis cs:4, 0) {509};
+                    \node[below] at (axis cs:5, 0) {518};
+
+                    \path[name path=B] 
+                        (axis cs:\pgfkeysvalueof{/pgfplots/xmin},0)--
+                        (axis cs:\pgfkeysvalueof{/pgfplots/xmax},0);
+                    \addplot[gray!60!green] fill between[of=A and B, soft clip={domain=0:1},];
+                    \addplot[gray!60!green] fill between[of=A and B, soft clip={domain=5:6},];
+                \end{axis}
+            \end{tikzpicture}
+        \end{center}
+        About 95\% of drinks have a volume between 482 mL and 518 mL, and about 2.5\% have a volume above 518 mL
+        \item[(b)] What is the probability that a randomly selected drink has a volume below 490 mL?
+        \begin{enumerate}
+            \item[1.] Set up probability: $P(x < 490)$
+            \item[2.] Convert $x$ to $z$: $\displaystyle z = \frac{x - \mu}{\sigma} = \frac{490 - 500}{9} = -1.11$
+            \item[3.] Use z-table: $\displaystyle P(x < 490) = P(z < -1.11) = 0.1335$
+            \begin{center}
+                \begin{tikzpicture}[scale=0.75]
+                    \begin{axis}[
+                        no markers, 
+                        domain=0:6, 
+                        samples=100,
+                        ymin=0,
+                        axis lines*=left, 
+                        xlabel=,
+                        every axis y label/.style={at=(current axis.above origin),anchor=south},
+                        every axis x label/.style={at=(current axis.right of origin),anchor=west},
+                        height=5cm, 
+                        width=12cm,
+                        xtick=\empty, 
+                        ytick=\empty,
+                        enlargelimits=false, 
+                        clip=false, 
+                        axis on top,
+                        grid = major,
+                        hide y axis
+                    ]
+                        
+                        \addplot [very thick,black,name path=A] {gauss(x, 3, 1)};
+                        \pgfmathsetmacro\valueA{gauss(1,3,1)}
+                        \pgfmathsetmacro\valueB{gauss(2,3,1)}
+                        \pgfmathsetmacro\valueC{gauss(3,3,1)}
+                        \draw [gray] (axis cs:1,0) -- (axis cs:1,\valueA)
+                            (axis cs:5,0) -- (axis cs:5,\valueA);
+                        \draw [gray] (axis cs:2,0) -- (axis cs:2,\valueB)
+                            (axis cs:4,0) -- (axis cs:4,\valueB);
+                        \draw [gray] (axis cs:3,0) -- (axis cs:3,\valueC);
+                        %\draw [yshift=0.3cm, latex-latex](axis cs:1, 0) -- node [fill=orange!15] {$~95\%$} (axis cs:5, 0);
+                        
+                        \node[below] at (axis cs:1, 0) {482}; 
+                        \node[below] at (axis cs:2, 0) {491}; 
+                        \node[below] at (axis cs:3, 0) {500}; 
+                        \node[below] at (axis cs:4, 0) {509};
+                        \node[below] at (axis cs:5, 0) {518};
+    
+                        \path[name path=B] 
+                            (axis cs:\pgfkeysvalueof{/pgfplots/xmin},0)--
+                            (axis cs:\pgfkeysvalueof{/pgfplots/xmax},0);
+                        \addplot[gray!60!green] fill between[of=A and B, soft clip={domain=0:1.98},];
+                    \end{axis}
+                \end{tikzpicture}
+            \end{center}
+        \end{enumerate}
+        \item[(c)] What is the probability that a randomly selected drink has a volume above 475 mL?
+        \vspace{1mm}\\
+        $\displaystyle z = \frac{x - \mu}{\sigma} = \frac{475 - 500}{9} = -2.78$\\
+        $\displaystyle P(x > 475) = P(z < -2.78) = 1 - 0.0027 = 0.9973$
+        \begin{center}
+            \begin{tikzpicture}[scale=0.75]
+                \begin{axis}[
+                    no markers, 
+                    domain=0:6, 
+                    samples=100,
+                    ymin=0,
+                    axis lines*=left, 
+                    xlabel=,
+                    every axis y label/.style={at=(current axis.above origin),anchor=south},
+                    every axis x label/.style={at=(current axis.right of origin),anchor=west},
+                    height=5cm, 
+                    width=12cm,
+                    xtick=\empty, 
+                    ytick=\empty,
+                    enlargelimits=false, 
+                    clip=false, 
+                    axis on top,
+                    grid = major,
+                    hide y axis
+                ]
+                    
+                    \addplot [very thick,black,name path=A] {gauss(x, 3, 1)};
+                    \pgfmathsetmacro\valueA{gauss(1,3,1)}
+                    \pgfmathsetmacro\valueB{gauss(2,3,1)}
+                    \pgfmathsetmacro\valueC{gauss(3,3,1)}
+                    \draw [gray] (axis cs:1,0) -- (axis cs:1,\valueA)
+                        (axis cs:5,0) -- (axis cs:5,\valueA);
+                    \draw [gray] (axis cs:2,0) -- (axis cs:2,\valueB)
+                        (axis cs:4,0) -- (axis cs:4,\valueB);
+                    \draw [gray] (axis cs:3,0) -- (axis cs:3,\valueC);
+                    %\draw [yshift=0.3cm, latex-latex](axis cs:1, 0) -- node [fill=orange!15] {$~95\%$} (axis cs:5, 0);
+                    
+                    \node[below] at (axis cs:1, 0) {482}; 
+                    \node[below] at (axis cs:2, 0) {491}; 
+                    \node[below] at (axis cs:3, 0) {500}; 
+                    \node[below] at (axis cs:4, 0) {509};
+                    \node[below] at (axis cs:5, 0) {518};
+
+                    \path[name path=B] 
+                        (axis cs:\pgfkeysvalueof{/pgfplots/xmin},0)--
+                        (axis cs:\pgfkeysvalueof{/pgfplots/xmax},0);
+                    \addplot[gray!60!green] fill between[of=A and B, soft clip={domain=0.5:6},];
+                \end{axis}
+            \end{tikzpicture}
+        \end{center}
+        \item[(d)] What is the probability that a randomly selected drink has a volume between 488 and 511 mL?
+        \vspace{1mm}\\
+        $\displaystyle z_1 = \frac{488 - 500}{9} = -1.33\ z_2 = \frac{511 - 500}{9} = 1.22$\\
+        $P(488 < x < 511) = P(-1.33 < z < 1.22) = P(z < 1.22) - P(z < -1.33) = 0.8888 - 0.0918 - 0.7970$
+        \begin{center}
+            \begin{tikzpicture}[scale=0.75]
+                \begin{axis}[
+                    no markers, 
+                    domain=0:6, 
+                    samples=100,
+                    ymin=0,
+                    axis lines*=left, 
+                    xlabel=,
+                    every axis y label/.style={at=(current axis.above origin),anchor=south},
+                    every axis x label/.style={at=(current axis.right of origin),anchor=west},
+                    height=5cm, 
+                    width=12cm,
+                    xtick=\empty, 
+                    ytick=\empty,
+                    enlargelimits=false, 
+                    clip=false, 
+                    axis on top,
+                    grid = major,
+                    hide y axis
+                ]
+                    
+                    \addplot [very thick,black,name path=A] {gauss(x, 3, 1)};
+                    \pgfmathsetmacro\valueA{gauss(1,3,1)}
+                    \pgfmathsetmacro\valueB{gauss(2,3,1)}
+                    \pgfmathsetmacro\valueC{gauss(3,3,1)}
+                    \draw [gray] (axis cs:1,0) -- (axis cs:1,\valueA)
+                        (axis cs:5,0) -- (axis cs:5,\valueA);
+                    \draw [gray] (axis cs:2,0) -- (axis cs:2,\valueB)
+                        (axis cs:4,0) -- (axis cs:4,\valueB);
+                    \draw [gray] (axis cs:3,0) -- (axis cs:3,\valueC);
+                    %\draw [yshift=0.3cm, latex-latex](axis cs:1, 0) -- node [fill=orange!15] {$~95\%$} (axis cs:5, 0);
+                    
+                    \node[below] at (axis cs:1, 0) {482}; 
+                    \node[below] at (axis cs:2, 0) {491}; 
+                    \node[below] at (axis cs:3, 0) {500}; 
+                    \node[below] at (axis cs:4, 0) {509};
+                    \node[below] at (axis cs:5, 0) {518};
+
+                    \path[name path=B] 
+                        (axis cs:\pgfkeysvalueof{/pgfplots/xmin},0)--
+                        (axis cs:\pgfkeysvalueof{/pgfplots/xmax},0);
+                    \addplot[gray!60!green] fill between[of=A and B, soft clip={domain=1.67:4.22},];
+                \end{axis}
+            \end{tikzpicture}
+        \end{center}
+        \item[(e)] Suppose 200 drinks are selected. How many would you expect to have a volume between 488 and 511 mL?
+        \vspace{1mm}\\
+        $P(488 < x < 511) = 0.7970 \to (200)(0.7970) = 159.4$
+    \end{enumerate}
+\end{shaded}
+
+\begin{shaded}
+    \underline{\bf{Example:} Miles Per Gallon}
+    \vspace{2mm}\\
+    Suppose an auto manufacturer introduces a new model that has an advertised mean in-city mileage of 27 miles per gallon and standard deviation 3 mpg. Assume that the probability distribution of $x$, the in-city mileage for this car model can be approximated by the normal distribution with mean 27 mpg. ($\mu = 27, \sigma = 3$)
+    \begin{enumerate}
+        \item If you were to buy this model of automobile, what is the probability that you would purchase one that averages less than 20 mpg for in-city driving?
+        \vspace{1mm}\\
+        $\displaystyle z = \frac{x - \mu}{\sigma} = \frac{20 - 27}{3} = -2.33$
+        \vspace{1mm}\\
+        $P(x < 20) = P(z < -2.33) = 0.0099$
+        \item Suppose you purchase one of these new models and it does get less than 20 mpg for in-city driving. Should you believe that the advertised mean is incorrect?
+        \vspace{1mm}\\
+        It is possible that you were just unlucky and got a car with gas mileage in the lower 0.99\% or the advertised mean could be incorrect and the true mean is lower than advertised 
+    \end{enumerate}
+\end{shaded}
+
+\begin{shaded}
+    \underline{\bf{General Normal Probability Examples}}
+    \begin{enumerate}
+        \item Find the probability that a standard normal random variable exceeds 1.64
+        \vspace{1mm}\\
+        For $P(z > n)$ use the compliment of the probability from the table\\
+        $P(z > 1.64) = 1 - 0.9495 = 0.0505$
+        \item Find the probability that a standard normal random variable lies to the left of 0.67
+        \vspace{1mm}\\
+        For $P(z < n)$ use the probability from the table\\
+        $P(z < 0.67) = 0.7486$
+        \item Find the probability that a standard normal random variable falls between -1 and 2.5
+        \vspace{1mm}\\
+        For $P(n < z < m)$ look up both probabilities in the table and subtract the smaller probability from the larger probability\\
+        $P(-1.00 < z < 2.50) = 0.9938 - 0.1587 = 0.8351$
+    \end{enumerate}
+\end{shaded}
+
+\newpage
+\begin{shaded}
+    \underline{\bf{Example:} Newborn Weights}
+    \vspace{2mm}\\
+    Suppose that the weights of newborns in the US are normally distributed with a mean of 7 lbs and a standard deviation of 1.4 lbs.
+    \begin{enumerate}
+        \item What percent of babies' weights are above 6.2 lbs?
+        \vspace{1mm}\\
+        $\displaystyle z = \frac{x - \mu}{\sigma} = \frac{6.2 - 7}{1.4} = -0.57\ \boldsymbol{\to}\ P(x > 6.2) = P(z > -0.57) = 1 - 0.2843 = 0.7157$
+        \begin{center}
+            \begin{tikzpicture}[scale=1]
+                \begin{axis}[
+                    no markers, 
+                    domain=0:6, 
+                    samples=100,
+                    ymin=0,
+                    axis lines*=left, 
+                    xlabel=,
+                    every axis y label/.style={at=(current axis.above origin),anchor=south},
+                    every axis x label/.style={at=(current axis.right of origin),anchor=west},
+                    height=5cm, 
+                    width=12cm,
+                    xtick=\empty, 
+                    ytick=\empty,
+                    enlargelimits=false, 
+                    clip=false, 
+                    axis on top,
+                    grid = major,
+                    hide y axis
+                ]
+                    \addplot [very thick,black,name path=A] {gauss(x, 3, 1)};
+                    \pgfmathsetmacro\valueA{gauss(0.75,3,1)}
+                    \pgfmathsetmacro\valueB{gauss(1.5,3,1)}
+                    \pgfmathsetmacro\valueC{gauss(2.25,3,1)}
+                    \pgfmathsetmacro\valueM{gauss(3,3,1)}
+                    \draw [black] (axis cs:0.75,0) -- (axis cs:0.75,\valueA)
+                        (axis cs:5.25,0) -- (axis cs:5.25,\valueA);
+                    \draw [black] (axis cs:1.5,0) -- (axis cs:1.5,\valueB)
+                        (axis cs:4.5,0) -- (axis cs:4.5,\valueB);
+                    \draw [black] (axis cs:2.25,0) -- (axis cs:2.25,\valueC)
+                        (axis cs:3.75,0) -- (axis cs:3.75,\valueC);
+                    \draw [black!70!,dashed] (axis cs:3,0) -- (axis cs:3,\valueM);
+                    
+                    \node[below] at (axis cs:0.75, 0) {2.8};
+                    \node[below] at (axis cs:1.5, 0) {4.2}; 
+                    \node[below] at (axis cs:2.25, 0) {5.6}; 
+                    \node[below] at (axis cs:3, 0) {7}; 
+                    \node[below] at (axis cs:3.75, 0) {8.4};
+                    \node[below] at (axis cs:4.5, 0) {9.8};
+                    \node[below] at (axis cs:5.25, 0) {11.2};
+
+                    \node[below] at (axis cs:0.75, -0.05) {$\mu - 3\sigma$};
+                    \node[below] at (axis cs:1.5, -0.05) {$\mu - 2\sigma$}; 
+                    \node[below] at (axis cs:2.25, -0.05) {$\mu - \sigma$}; 
+                    \node[below] at (axis cs:3, -0.05) {$\mu$}; 
+                    \node[below] at (axis cs:3.75, -0.05) {$\mu + \sigma$};
+                    \node[below] at (axis cs:4.5, -0.05) {$\mu + 2\sigma$};
+                    \node[below] at (axis cs:5.25, -0.05) {$\mu + 3\sigma$};
+        
+                    \path[name path=B] 
+                        (axis cs:\pgfkeysvalueof{/pgfplots/xmin},0)--
+                        (axis cs:\pgfkeysvalueof{/pgfplots/xmax},0);
+                    \addplot[white!20!teal] fill between[of=A and B, soft clip={domain=2.43:6},];
+                    
+                    \addplot [very thick,black,name path=A] {gauss(x, 3, 1)};
+                \end{axis}
+            \end{tikzpicture}
+        \end{center}
+        \item In a sample of 20 babies born today, how many would we expect to weigh above 6.2 lbs?
+        \vspace{1mm}\\
+        71.57\% are expected to weigh above 6.2 lbs, or $(20)(0.7157) = 14.314$
+        \item A newborn baby's weight is 0.64 standard deviations above the mean, what is the baby's weight?
+        \vspace{1mm}\\
+        Use $z$ formula solved for $x$: $\displaystyle x = \mu + z\sigma$\\
+        $x = 7 + (0.64)(1.4) =$ 7.896 lbs
+        \item What is the largest weight a newborn can be to be considered in the lower 4.01\%?
+        \vspace{1mm}\\
+        Look on the negative side of the $z$ table for probability 0.0401 (-1.75)\\
+        $x = \mu + z\sigma = 7 + (-1.75)(1.4) = 4.55$ lbs
+        \item What is the smallest weight a newborn can be to be considered in the upper 2.68\%?
+        \vspace{1mm}\\
+        The cutoff for the upper 2.68\% is the lower 97.32\%. Look at the positive $z$ table for the probability 0.9732. ($z = 1.93$)\\
+        $x = \mu + z\sigma = 7 + (1.93)(1.4) = 9.702$ lbs
+    \end{enumerate}
+\end{shaded}
+
+\begin{shaded}
+    \underline{\bf{General Examples of Finding $z$ Scores from a Probability/Cumulative Area}}
+    \begin{enumerate}
+        \item Find the $z$ score that corresponds to the cumulative area of 0.8554
+        \vspace{1mm}\\
+        Look on the positive side of the $z$ table for the probability 0.8554 ($z = 1.06$)\\
+        $P(z < 1.06) = 0.8554$
+        \item Find the $z$ score that corresponds to the 75th percentile
+        \vspace{1mm}\\
+        Look on the positive side of the $z$ table for the probability 0.7500 ($z = 0.67$)\\
+        $P(z < 0.67) = 0.7500$
+        \item Find the $z$ score that has 0.91\% of the distribution's area to its right
+        \vspace{1mm}\\
+        Look on the positive side of the $z$ table for the probability 0.9909 ($z = 2.36$)\\
+        $P(z > 2.36) = 0.0091 = 1 - 0.9909$
+        \item Find the $z$ score that corresponds to the 31st percentile
+        \vspace{1mm}\\
+        Look on the negative side of the $z$ table for the probability 0.3100, the closest is 0.3085. ($z = -0.50$)\\
+        $P(z < -0.50) = 0.3100$
+        \item Find the $z$ score for which 60\% of the distribution's area lies between $-z$ and $z$
+        \vspace{1mm}\\
+        Look on the negative side of the $z$ table for the probability 0.2000, the closest is 0.2005 ($z = \pm 0.84$). If the probability is \underline{exactly} between two probabilities in the table, average the two $z$ scores
+        \vspace{0.5mm}\\
+        $P(z_1 < x < z_2) = 0.6000\ \to\ P(-0.84 < x < 0.84)$
+    \end{enumerate}
+\end{shaded}
+
+\begin{shaded}
+    \underline{\bf{Example:} Find The Value of $x$ Given a Percentage}
+    \vspace{2mm}\\
+    The mean total cholesterol level of women ages 20-34 is 181 mg/dL with standard deviation 37.6 mg/dL. Assume the total cholesterol levels are normally distributed
+    \begin{enumerate}
+        \item What level represents the 99th percentile? Round to the nearest whole number
+        \vspace{1mm}\\
+        Look on the positive side of the $z$ table for the probability closest to 0.9900 (0.9901 is the closest). $z = 2.33$\\
+        $x = \mu + z\sigma = 181 + (2.33)(37.6) = 269$ mg/dL
+        \item What levels represent the bottom 10\%? Round to the nearest whole number
+        \vspace{1mm}\\
+        Look on the negative side of the $z$ table for the probability closest to 0.1000 (0.1003 is the closest). $z = -1.28$\\
+        $x = \mu + z\sigma = 181 + (-1.28)(37.6) = 133$ mg/dL
+        \item What level represents the third quartile? Round to the nearest whole number
+        \vspace{1mm}\\
+        The third quartile is the 75th percentile, look on the positive side of the $z$ table for the closest probability to 0.7500 (0.7486 is the closest). $z = 0.67$\\
+        $x = \mu + z\sigma = 181 + (0.67)(37.6) = 206$ mg/dL
+        \item What is the smallest cholesterol level to be considered in the top 15\%? Round to the nearest whole number
+        \vspace{1mm}\\
+        The top 15\% is the same as the 85th percentile, look on the positive side of the $z$ table for the probability closest to 0.8500 (0.8508 is the closest). $z = 1.04$\\
+        $x = \mu + z\sigma - 181 + (1.04)(37.6) = 220$ mg/dL
+    \end{enumerate}
+\end{shaded}
+
 \end{document}
