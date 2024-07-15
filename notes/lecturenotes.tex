@@ -49,7 +49,7 @@
 \section{Chapter 2}
 A \bf{frequency distribution} is a table that shows classes or intervals of data entries with a count of the umber of entries in each class.
 
-\begin{tikzpicture}
+\begin{tikzpicture}[scale=0.95]
     %%% FREQUENCY DISTRIBUTION %%%
     % axes and labels %
     \draw[-,thick] (0,0)--(0,5.2);
@@ -106,17 +106,7 @@ The class with the most data is called the modal class.
     \item The sample number is notated "$n$", the population number is "$N$". The mean of the sample is notated $\bar{x}$, the mean of the population is notated $\mu$.
 \end{itemize}
 
-\begin{tabularx}{0.8\textwidth}{ 
-    | >{\raggedright\arraybackslash}X 
-    | >{\centering\arraybackslash}X 
-    | >{\raggedleft\arraybackslash}X |}
-    \hline
-    item 11 & item 12 & item 13 \\
-    \hline
-    item 21  & item 22  & item 23  \\
-    \hline
-\end{tabularx}
-
+\newpage
 \subsection{Measures of variation and position}
 Range = max - margin
 \begin{itemize}
@@ -180,6 +170,7 @@ Let $p_i$ represent the probability of sample point $i$, then:
     P(E) = \frac{\text{frequency of event $E$}}{\text{total frequency}} = \frac{f}{n}
 \end{equation}
 %%% missing some stuff 7/1 %%%
+\newpage
 \subsection{Combinations \& Complements}
 \bf{Complement of Event} - The complement of an event is the set of all outcomes in a sample space that are \underline{not} included in event $E$
 \begin{equation}
@@ -244,6 +235,7 @@ Let $p_i$ represent the probability of sample point $i$, then:
     \end{enumerate}
 \end{shaded}
 
+\newpage
 \subsection{Unions \& Intersections}
 \bf{Fundamental Counting Principle} - If one event can occur $m$ ways, and another can occur $n$ ways, then the number of ways the two events can occur in sequence is $m \cdot n$. This can be extended to any number of events occuring in sequence.
 \begin{shaded}
@@ -440,6 +432,7 @@ Where $p$ = probability of success on a single trial, $q = 1 - p$, $n$ = number 
     \item \bf{Variance:} $\displaystyle \sigma^2 npq$
     \item \bf{Standard Deviation:} $\displaystyle \sigma = \sqrt{npq}$
 \end{itemize}
+\newpage
 \begin{shaded}
     \underline{\bf{Example:} Flower Genetics}
     \vspace{2mm}\\
