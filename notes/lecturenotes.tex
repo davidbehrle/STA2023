@@ -1057,7 +1057,7 @@ The central limit theorem states that:
 \subsection{Probability and The Central Limit Theorem}
 To find the probability that a sample mean $\bar{x}$ will lie in a given interval of the $\bar{x}$ sampling distribution, first transform $\bar{x}$ into a $z$ score using the formula:
 \begin{align}
-    z = \frac{\text{value - mean}}{standard error} = \frac{\bar{x} - \mu_{\bar{x}}}{\sigma_{\bar{x}}} = \frac{\bar{x} - \mu}{\sfrac{\sigma}{\sqrt{n}}}
+    z = \frac{\text{value - mean}}{\text{standard error}} = \frac{\bar{x} - \mu_{\bar{x}}}{\sigma_{\bar{x}}} = \frac{\bar{x} - \mu}{\sfrac{\sigma}{\sqrt{n}}}
 \end{align}
 \begin{shaded}
     \underline{\bf{Example:} Gettysburg Address 2}
@@ -1132,5 +1132,36 @@ To find the probability that a sample proportion $\hat{p}$ will lie in a given i
         $\displaystyle z = \frac{0.52 - 0.45}{\sqrt{\sfrac{(0.45)(0.55)}{200}}} = 1.99$ \hspace{2mm}$\to$\hspace{2mm} $P(0.40 \leq \hat{p} \leq 0.52) = P(-1.42 < z < 1.99) = 0.8989$
     \end{enumerate}
 \end{shaded}
+
+\section{Chapter 7}
+\subsection{Identifying \& Estimating The Target Parameter}
+\bf{Target Parameter} - The unknown population parameter of interest to be estimated
+\vspace{1mm}\\
+\bf{Point Estimate} - A single number calculated from the sample that estimates a target population parameter
+\begin{shaded}
+    \underline{\bf{Example:} COVID-19 Research Part 1}
+    \vspace{1mm}\\
+    Researchers want to know the average incubation period for COVID-19. Note that the incubation period is defined by the CDC as the time from exposure to the causative agent until the first symptoms develop.\vspace{1mm}\\
+    Suppose the researchers obtain a sample of 181 patients with identifiable exposure time and find the average incubation period to be 5.1 days with a standard deviation of 4.45 days. $n = 181,\ \bar{x} = 5.1,\ s = 4.45$
+    \begin{enumerate}
+        \item[(a)] Identify the target parameter\\
+        The target parameter is $\mu$, the average incubation period of COVID-19
+        \item[(b)] Identify the point estimate\\
+        The point estimate for the sample is $\bar{x} = 5.1$, the average incubation period for the sample of 181 patients
+    \end{enumerate}
+\end{shaded}
+\subsection{Confidence Interval For a Population Mean: Normal ($z$) Statistic}
+\bf{Confidence Interval} - A range of numbers that contains the target parameter with a high degree of confidence. Also called an interval estimator\vspace{1mm}\\
+\bf{Confidence Coefficient} - The probability that an interval estimator encloses the population parameter\vspace{1mm}\\
+\bf{Confidence Level} - The confidence coefficient expressed as a percentage\vspace{1mm}\\
+$\boldsymbol{\alpha} = 1 -$ confidence coefficient
+\begin{shaded}
+    \underline{\bf{Example:} COVID-19 Research Part 2}
+    \vspace{2mm}\\
+    Using the sample information from part 1, complete:
+    \begin{enumerate}
+        \item[(a)] 
+    \end{enumerate}
+\end{shaded} 
 
 \end{document}
