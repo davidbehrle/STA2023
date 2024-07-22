@@ -984,4 +984,153 @@ The central limit theorem states that:
     \item If the population itself is normally distributed, then the sampling distribution of sample means is normally distributed for any sample size $n$
 \end{enumerate}
 
+\begin{shaded}
+    \underline{\bf{Example:} Gettysburg Address}
+    \vspace{2mm}\\
+    The words of Abraham Lincoln's Gettysburg Address have an average length of 4.3 letters and a standard deviation of 2.1 letters. Random samples of 30 words are drawn from this population, and the mean of each sample is determined. Find the mean and standard deviation of the sampling distribution of sampling means. Round to one decimal place. Then sketch a graph of the sampling distribution
+    \vspace{1mm}\\
+    Population: $\mu = 4.3,\ \sigma = 2.1$\\
+    Sampling distribution $\mu_{\bar{x}} = \mu = 4.3,\ \sigma_{\bar{x}} = \sfrac{\sigma}{\sqrt{n}} = \sfrac{2.1}{\sqrt{30}} \approx 0.4$
+
+    \begin{center}
+        \begin{tikzpicture}[scale=1]
+            \begin{axis}[
+                no markers, 
+                domain=0:6, 
+                samples=100,
+                ymin=0,
+                axis lines*=left, 
+                xlabel=,
+                every axis y label/.style={at=(current axis.above origin),anchor=south},
+                every axis x label/.style={at=(current axis.right of origin),anchor=west},
+                height=5cm, 
+                width=12cm,
+                xtick=\empty, 
+                ytick=\empty,
+                enlargelimits=false, 
+                clip=false, 
+                axis on top,
+                grid = major,
+                hide y axis
+            ]
+                \addplot [very thick,black,name path=A] {gauss(x, 3, 1)};
+                \pgfmathsetmacro\valueA{gauss(0.75,3,1)}
+                \pgfmathsetmacro\valueB{gauss(1.5,3,1)}
+                \pgfmathsetmacro\valueC{gauss(2.25,3,1)}
+                \pgfmathsetmacro\valueM{gauss(3,3,1)}
+                \draw [black] (axis cs:0.75,0) -- (axis cs:0.75,\valueA)
+                    (axis cs:5.25,0) -- (axis cs:5.25,\valueA);
+                \draw [black] (axis cs:1.5,0) -- (axis cs:1.5,\valueB)
+                    (axis cs:4.5,0) -- (axis cs:4.5,\valueB);
+                \draw [black] (axis cs:2.25,0) -- (axis cs:2.25,\valueC)
+                    (axis cs:3.75,0) -- (axis cs:3.75,\valueC);
+                \draw [black] (axis cs:3,0) -- (axis cs:3,\valueM);
+                
+                \node[below] at (axis cs:0.25, 0) {$\boldsymbol{\bar{x}:}$};
+                \node[below] at (axis cs:0.75, 0) {3.1};
+                \node[below] at (axis cs:1.5, 0) {3.5}; 
+                \node[below] at (axis cs:2.25, 0) {3.9}; 
+                \node[below] at (axis cs:3, 0) {4.3}; 
+                \node[below] at (axis cs:3.75, 0) {4.7};
+                \node[below] at (axis cs:4.5, 0) {5.1};
+                \node[below] at (axis cs:5.25, 0) {5.5};
+
+                \node[below] at (axis cs:0.25, -0.05) {$\boldsymbol{z:}$};
+                \node[below] at (axis cs:0.75, -0.05) {-3};
+                \node[below] at (axis cs:1.5, -0.05) {-2}; 
+                \node[below] at (axis cs:2.25, -0.05) {-1}; 
+                \node[below] at (axis cs:3, -0.05) {0}; 
+                \node[below] at (axis cs:3.75, -0.05) {1};
+                \node[below] at (axis cs:4.5, -0.05) {2};
+                \node[below] at (axis cs:5.25, -0.05) {3};
+    
+                \path[name path=B] 
+                    (axis cs:\pgfkeysvalueof{/pgfplots/xmin},0)--
+                    (axis cs:\pgfkeysvalueof{/pgfplots/xmax},0);
+
+                \addplot [very thick,black,name path=A] {gauss(x, 3, 1)};
+            \end{axis}
+        \end{tikzpicture}
+    \end{center}
+    From the central limit theorem, because the sample size is at least 30, the sampling distribution can be approximated by a normal distribution with a mean of 4.3 letters and a standard deviation of 0.4 letters
+\end{shaded}
+\subsection{Probability and The Central Limit Theorem}
+To find the probability that a sample mean $\bar{x}$ will lie in a given interval of the $\bar{x}$ sampling distribution, first transform $\bar{x}$ into a $z$ score using the formula:
+\begin{align}
+    z = \frac{\text{value - mean}}{standard error} = \frac{\bar{x} - \mu_{\bar{x}}}{\sigma_{\bar{x}}} = \frac{\bar{x} - \mu}{\sfrac{\sigma}{\sqrt{n}}}
+\end{align}
+\begin{shaded}
+    \underline{\bf{Example:} Gettysburg Address 2}
+    \vspace{2mm}\\
+    What is the probability that the mean length of 30 randomly chosen words of the Gettysburg Address is more than 4.5 letters?
+    \vspace{1mm}\\
+    $P(\bar{x} > 4.5)$\\
+    $\displaystyle z = \frac{\bar{x} - \mu}{\sfrac{\sigma}{\sqrt{n}}} = \frac{4.5 - 4.3}{\sfrac{2.1}{\sqrt{30}}} = 0.52$ \hspace{2mm}$\to$\hspace{2mm} $P(\bar{x} > 4.5) = P(z > 0.52) = 1-0.6985 = 0.3015$\\
+    If 30 words are randomly chosen, there is a 30.15\% chance that the mean letter length of the sample is more than 4.5 letters
+\end{shaded}
+\newpage
+\begin{shaded}
+    \underline{\bf{Example:} Student Loan Debt}
+    \vspace{2mm}\\
+    In 2019, the average student loan debt of US college graduates was approximately \$31,000. Assume that the student loan debt amount is normally distributed with a standard deviation of \$5,800
+    \begin{enumerate}
+        \item[(a)] What is the probability that a randomly selected graduate, who has student loans, has a student loan debt less than \$24,000?
+        \vspace{1mm}\\
+        Notice this says "a" graduate, $P(x < 24,000)$\\
+        $\displaystyle z = \frac{x - \mu}{\sigma} = \frac{24,000 - 31,000}{5,800} = -1.21$ \hspace{2mm}$\to$\hspace{2mm} $P(x < 24,000) = P(z < -1.21) = 0.1131$
+        \item[(b)] You randomly select 16 US college graduates with student loans. What is the probability that the mean student loan debt of these 16 graduates is less than \$24,000
+        \vspace{1mm}
+        Note that this says "16" graduates, so find the probability of a mean debt, use sampling distribution, $P(\bar{x} < 24,000)$\\
+        $\displaystyle z = \frac{\bar{x}}{\sfrac{\sigma}{\sqrt{n}}} = \frac{24,000 - 31,000}{\sfrac{5,800}{\sqrt{16}}} = -4.83$\\
+        $\displaystyle \mu_{\bar{x}} = \mu = 31,000$, and $\displaystyle \sigma_{\bar{x}} = \sfrac{\sigma}{\sqrt{n}} = \sfrac{5,800}{\sqrt{16}} = 1450$ \hspace{2mm}$\to$\hspace{2mm} $P(\bar{x} < 24,000) = P(z < -4.83) = p\to0$\vspace{1mm}\\
+        $z = -4.83$ is not on the $z$ table, although it would be less than $10^{-4}$
+    \end{enumerate}
+    Although there is an 11.31\% chance that an individual has student loan debt less than \$24,000, it is extremely unlikely that a sample of 16 graduates would have an average of less than 24,000
+\end{shaded}
+\subsection{The Sampling Distribution of The Sample Proportion}
+The properties of sampling distributions of sample proportions are:
+\begin{enumerate}
+    \item The mean of the sampling distribution is equal to the binomial proportion, $p$\\
+    $\mu_{\hat{p}}$ or $E(\hat{p}) = p$
+    \item The standard deviation of the sampling distribution is equal to:\\
+    $\displaystyle \sigma_{\hat{p}} = \sqrt{\frac{p(1 - p)}{n}}$
+    \item The sampling distribution of $\hat{p}$ has the same property as the sampling distribution of $\bar{x}$, normally distributed for large $n$. (large = $n\hat{p} \geq 15$ and $n(1 - \hat{p}) \geq 15$)
+\end{enumerate}
+To find the probability that a sample proportion $\hat{p}$ will lie in a given interval of the $\hat{p}$ sampling distribution, first transform $\hat{p}$ into a $z$ score using the formula:
+\begin{equation}
+    z = \frac{\hat{p} - p}{\sqrt{\sfrac{p(1 - p)}{n}}}
+\end{equation}
+
+\begin{shaded}
+    \underline{\bf{Example:} Voting}
+    \vspace{2mm}\\
+    A poll of voters is taken in Orlando. Politicians believe that 60\% of Orlando voters favor the candidate. 100 voters will be randomly selected and asked if they favor the candidate
+    \begin{enumerate}
+        \item[(a)] What is $p$? $p = $ The population of all Orlando voters who favor the candidate
+        \item[(b)] What is $\hat{p}$? $\hat{p} =$ The sample proportion of the 100 voters who prefer the candidate
+        \item[(c)] What is the probability that fewer than half are in favor of the candidate? What would you conclude if you sampled 100 voters and found tht less than half are in favor of the candidate?\vspace{1mm}\\
+        Check property 3 ($n\hat{p} \geq 15$ and $n(1 - \hat{p})$): $100(0.5) = 50 \geq 15$, and $100(1 - 0.5) = 50 \geq 15$\\
+        $\displaystyle z = \frac{\hat{p} - p}{\sqrt{\sfrac{p(1 - p)}{n}}} = \frac{0.5 - 0.6}{\sqrt{\sfrac{0.6(0.4)}{100}}} = -2.04$\hspace{2mm}$\to$\hspace{2mm} $P(\hat{p} < 0.5) = P(z < -2.04) = 0.0207$\vspace{1mm}\\
+        60\% might not be an accurate proportion of voters who favor the candidate
+    \end{enumerate}
+\end{shaded}
+
+\newpage
+\begin{shaded}
+    \underline{\bf{Example:} Snapchat Use}
+    \vspace{2mm}\\
+    Suppose 45\% of all UCF students who have Snapchat check the app more than 10 times per day. A random sample of 200 UCF students who use Snapchat are selected
+    \begin{enumerate}
+        \item What is the probability that less than 42\% of these students check Snapchat more than 10 times per day?\\
+        Check property 3 ($n\hat{p} \geq 15$ and $n(1 - \hat{p})$): $200(0.42) = 84 \geq 15$, and $200(0.58) = 116 \geq 15$\\
+        $\displaystyle z = \frac{\hat{p} - p}{\sqrt{\sfrac{p(1 - p)}{n}}} = \frac{0.42 - 0.45}{\sqrt{\sfrac{(0.45)(0.55)}{200}}} = -0.85$ \hspace{2mm}$\to$\hspace{2mm} $P(\hat{p} < 0.42) = P(z < -0.85) = 0.1977$
+        \item What is the probability that more than 40\% of these students check Snapchat more than 10 times per day?\\
+        Check property 3 ($n\hat{p} \geq 15$ and $n(1 - \hat{p})$): $200(0.40) = 80 \geq 15$, and $200(0.60) = 120 \geq 15$\\
+        $\displaystyle z = \frac{0.40 - 0.45}{\sqrt{\sfrac{(0.45)(0.55)}{200}}} = -1.42$ \hspace{2mm}$\to$\hspace{2mm} $P(\hat{p} > 0.40) = P(z > -1.42) = 0.9222$
+        \item What is the probability that between 40\% and 52\% of these students check Snapchat more than 10 times per day?\\
+        Check property 3 ($n\hat{p} \geq 15$ and $n(1 - \hat{p})$): $200(0.52) = 104 \geq 15$, and $200(0.48) = 96 \geq 15$\\
+        $\displaystyle z = \frac{0.52 - 0.45}{\sqrt{\sfrac{(0.45)(0.55)}{200}}} = 1.99$ \hspace{2mm}$\to$\hspace{2mm} $P(0.40 \leq \hat{p} \leq 0.52) = P(-1.42 < z < 1.99) = 0.8989$
+    \end{enumerate}
+\end{shaded}
+
 \end{document}
