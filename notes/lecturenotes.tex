@@ -305,7 +305,6 @@ Let $p_i$ represent the probability of sample point $i$, then:
         $P(A \cap B) = 14\%$ or 0.14
     \end{enumerate}
 \end{shaded}
-
 \subsection{The Additive Rule and Mutually Exclusive Events}
 \bf{Mutually Exclusive Events} - Events that cannot happen at the same time. Two events $A$ and $B$ are mutally exclusive when $A$ and $B$ cannot occur in a single performance of the experiment, that is, when $P(A \cap B) = 0$. The probability that mutually exclusive events $A$ or $B$ will occur is given by: \hspace{10mm} *(only for mutually exclusive events)*
 \begin{equation}
@@ -376,7 +375,6 @@ Let $p_i$ represent the probability of sample point $i$, then:
 \end{shaded}
 
 %%% ADD MISSING INFO FROM 7/2 LECTURE %%%
-
 \subsection{The Multiplicative Rule \& Independent Events}
 \bf{Independent Events} - Two events are independent when the occurence of one of the events does not affect the probability of the occurence of the other event. That is, when $P(B|A) = P(B)$
 \vspace{2mm}\\
@@ -390,6 +388,7 @@ Let $p_i$ represent the probability of sample point $i$, then:
 \begin{equation}
     P(A|B) = \frac{P(A \cap B)}{P(B)}
 \end{equation}
+
 \section{Chapter 4}
 \subsection{Two Types of Random Variables}
 \bf{Random Variables} - A random variable $x$ represents a numerical value associated with each outcome of a probability experiment. There are two types of random variables: discreet and continuous.
@@ -498,7 +497,9 @@ Where $p$ = probability of success on a single trial, $q = 1 - p$, $n$ = number 
 \end{shaded}
 
 \newpage
-\section{Normal Probability Distributions}
+
+\section{Chapter 5}
+\subsection{Normal Probability Distributions}
 \bf{Normal Distribution} - Continuous probability distribution for a random variable $x$. The graph of a normal distribution is bell/mound shaped
 \begin{itemize}
     \item The normal distribution is symmetric about its mean $\mu$
@@ -951,5 +952,28 @@ Where $p$ = probability of success on a single trial, $q = 1 - p$, $n$ = number 
         $x = \mu + z\sigma - 181 + (1.04)(37.6) = 220$ mg/dL
     \end{enumerate}
 \end{shaded}
+\newpage
+
+\section{Chapter 6}
+\subsection{Sampling Distribution}
+\bf{Sampling Distribution} - The probability distribution of a sample statistic that is formed when samples of size $n$ are repeatedly taken from a population
+\vspace{1mm}\\
+\bf{Properties of Sampling Distributions of Sample Means}
+\begin{enumerate}
+    \item The mean of the sample means $\mu_{\bar{x}}$ is equal to the population mean $\mu$
+    \begin{align}
+        \mu_{\bar{x}} = \mu
+    \end{align}
+    \item The standard deviation of the sample means $\sigma_{\bar{x}}$ (called the standard error of the mean) is equal to the population standard deviation $\sigma$ divided by the square root of the sample size $n$
+    \begin{align}
+        \sigma_{\bar{x}} = \frac{\sigma}{\sqrt{n}}
+    \end{align}
+\end{enumerate}
+\subsection{Central Limit Theorem}
+The central limit theorem states that:
+\begin{enumerate}
+    \item If samples of size $n$, where $n \geq 30$, are drawn from any population with a mean $mu$ and standard deviation $\sigma$, then the sampling distribution of the sample means approximates a normal distribution
+    \item If the population itself is normally distributed, then the sampling distribution of sample means is normally distributed for any sample size $n$
+\end{enumerate}
 
 \end{document}
