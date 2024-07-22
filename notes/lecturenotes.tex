@@ -514,7 +514,7 @@ Where $p$ = probability of success on a single trial, $q = 1 - p$, $n$ = number 
         \begin{axis}[
             no markers, 
             domain=0:6, 
-            samples=100,
+            samples=300,
             ymin=0,
             axis lines*=left, 
             xlabel=,
@@ -546,13 +546,21 @@ Where $p$ = probability of success on a single trial, $q = 1 - p$, $n$ = number 
             \draw [yshift=1cm,thick,latex-latex](axis cs:1.5, 0) -- node[above] {$0.954$} (axis cs:4.5, 0);
             \draw [yshift=0.2cm,thick,latex-latex](axis cs:0.75, 0) -- node[above] {$0.954$} (axis cs:5.25, 0);
             
-            \node[below] at (axis cs:0.75, 0) {$\mu - 3\sigma$};
-            \node[below] at (axis cs:1.5, 0) {$\mu - 2\sigma$}; 
-            \node[below] at (axis cs:2.25, 0) {$\mu - \sigma$}; 
-            \node[below] at (axis cs:3, 0) {$\mu$}; 
-            \node[below] at (axis cs:3.75, 0) {$\mu + \sigma$};
-            \node[below] at (axis cs:4.5, 0) {$\mu + 2\sigma$};
-            \node[below] at (axis cs:5.25, 0) {$\mu + 3\sigma$};
+            \node[below] at (axis cs:0.75, -0.05) {$\mu - 3\sigma$};
+            \node[below] at (axis cs:1.5, -0.05) {$\mu - 2\sigma$}; 
+            \node[below] at (axis cs:2.25, -0.05) {$\mu - \sigma$}; 
+            \node[below] at (axis cs:3, -0.05) {$\mu$}; 
+            \node[below] at (axis cs:3.75, -0.05) {$\mu + \sigma$};
+            \node[below] at (axis cs:4.5, -0.05) {$\mu + 2\sigma$};
+            \node[below] at (axis cs:5.25, -0.05) {$\mu + 3\sigma$};
+
+            \node[below] at (axis cs:0.75, 0) {-3};
+            \node[below] at (axis cs:1.5, 0) {-2}; 
+            \node[below] at (axis cs:2.25, 0) {-1}; 
+            \node[below] at (axis cs:3, 0) {0}; 
+            \node[below] at (axis cs:3.75, 0) {1};
+            \node[below] at (axis cs:4.5, 0) {2};
+            \node[below] at (axis cs:5.25, 0) {3};
 
             \path[name path=B] 
                 (axis cs:\pgfkeysvalueof{/pgfplots/xmin},0)--
