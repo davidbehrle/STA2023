@@ -980,7 +980,7 @@ Where $p$ = probability of success on a single trial, $q = 1 - p$, $n$ = number 
 \subsection{Central Limit Theorem}
 The central limit theorem states that:
 \begin{enumerate}
-    \item If samples of size $n$, where $n \geq 30$, are drawn from any population with a mean $mu$ and standard deviation $\sigma$, then the sampling distribution of the sample means approximates a normal distribution
+    \item If samples of size $n$, where $n \geq 30$, are drawn from any population with a mean $\mu$ and standard deviation $\sigma$, then the sampling distribution of the sample means approximates a normal distribution
     \item If the population itself is normally distributed, then the sampling distribution of sample means is normally distributed for any sample size $n$
 \end{enumerate}
 
@@ -1154,7 +1154,40 @@ To find the probability that a sample proportion $\hat{p}$ will lie in a given i
 \bf{Confidence Interval} - A range of numbers that contains the target parameter with a high degree of confidence. Also called an interval estimator\vspace{1mm}\\
 \bf{Confidence Coefficient} - The probability that an interval estimator encloses the population parameter\vspace{1mm}\\
 \bf{Confidence Level} - The confidence coefficient expressed as a percentage\vspace{1mm}\\
-$\boldsymbol{\alpha} = 1 -$ confidence coefficient
+$\boldsymbol{\alpha} = 1 -$ confidence coefficient\vspace{2mm}\\
+\bf{Choosing a confidence interval}\\
+The confidence interval is the sample statistic ($\bar{x} or \hat{p}$) plus or minus the margin of error
+\begin{itemize}
+    \item Parameter is $\mu$, sample statistic is $\bar{x}$
+    \begin{itemize}
+        \item $\sigma$ is known \underline{and} $n\geq 30$ or the population is normal
+        \begin{itemize}
+            \item $z_{\sfrac{\alpha}{2}}(\sfrac{\sigma}{\sqrt{n}})$
+        \end{itemize}
+        \item $\sigma$ is unknown
+        \begin{itemize}
+            \item $n\geq30$
+            \begin{itemize}
+                \item $z_{\sfrac{\alpha}{2}}(\frac{s}{\sqrt{n}})$
+            \end{itemize}
+            \item $n<30$ and population is normal
+            \begin{itemize}
+                \item $t_{\sfrac{\alpha}{2}}(\sfrac{s}{\sqrt{n}})$
+            \end{itemize}
+        \end{itemize}
+    \end{itemize}
+    \item Parameter is $p$, sample statistic is $\hat{p}$
+    \begin{itemize}
+        \item $n\hat{p}\geq15$ and $n\hat{q}\geq15$
+        \begin{itemize}
+            \item $z_{\sfrac{\alpha}{2}}\sqrt{\sfrac{\hat{p}(1-\hat{p})}{n}}$
+        \end{itemize}
+        \item $n\hat{p} < 15$ or $n\hat{q} < 15$
+        \begin{itemize}
+            \item $\tilde{p} \pm z_{\sfrac{\alpha}{2}}\sqrt{\sfrac{\tilde{p}(1-\tilde{p})}{(n+4)}}$ where $\tilde{p} = \frac{x+2}{n+4}$
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
 \begin{shaded}
     \underline{\bf{Example:} COVID-19 Research Part 2}
     \vspace{2mm}\\
